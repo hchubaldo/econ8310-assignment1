@@ -11,12 +11,25 @@ assign1_data_df_keep = pd.DataFrame(assign1_data_df_keep.values, columns = ['ds'
 print(assign1_data_df_keep.head())
 
 model = Prophet(changepoint_prior_scale=0.5)
-model.fit(assign1_data_df_keep)
+model_fit = model.fit(assign1_data_df_keep)
 
-future = model.make_future_dataframe(periods=24*7, freq='h')
-forecast = model.predict(future)
+future = model_fit.make_future_dataframe(periods=24*7, freq='h')
+forecast = model_fit.predict(future)
 
-plot = model.plot(forecast)
-components = model.plot_components(forecast)
+plot = model_fit.plot(forecast)
+components = model_fit.plot_components(forecast)
 
-modelFit = model
+modelFit = model_fit
+
+assign1_test_data_df = pd.read_csv('assignment_data_test.csv')
+assign1_test_data_df_keep = assign1_test_data_df[['Timestamp']]
+assign1_test_data_df_keep.Timestamp = pd.to_datetime(assign1_test_data_df_keep.Timestamp, infer_datetime_format=True)
+assign1_test_data_df_keep = pd.DataFrame(assign1_test_data_df_keep.values, columns = ['ds'])
+print(assign1_test_data_df_keep.head())
+forecast_test = modelFit.predict(assign1_test_data_df_keep)
+print(forecast_test[['ds', 'yhat']].head())
+
+pred = forecast_test['yhat'].tolist()
+
+pred = [round(num) for num in pred]
+print(pred)
