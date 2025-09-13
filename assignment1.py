@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from prophet import Prophet
+import prophet
 
 assign1_data_df = pd.read_csv('assignment_data_train.csv')
 print(assign1_data_df.head())
@@ -10,7 +10,7 @@ assign1_data_df_keep.Timestamp = pd.to_datetime(assign1_data_df_keep.Timestamp, 
 assign1_data_df_keep = pd.DataFrame(assign1_data_df_keep.values, columns = ['ds','y'])
 print(assign1_data_df_keep.head())
 
-model = Prophet(changepoint_prior_scale=0.5)
+model = prophet.Prophet(changepoint_prior_scale=0.5)
 modelFit = model.fit(assign1_data_df_keep)
 
 future = modelFit.make_future_dataframe(periods=24*7, freq='h')
