@@ -11,15 +11,13 @@ assign1_data_df_keep = pd.DataFrame(assign1_data_df_keep.values, columns = ['ds'
 print(assign1_data_df_keep.head())
 
 model = Prophet(changepoint_prior_scale=0.5)
-model_fit = model.fit(assign1_data_df_keep)
+modelFit = model.fit(assign1_data_df_keep)
 
-future = model_fit.make_future_dataframe(periods=24*7, freq='h')
-forecast = model_fit.predict(future)
+future = modelFit.make_future_dataframe(periods=24*7, freq='h')
+forecast = modelFit.predict(future)
 
-plot = model_fit.plot(forecast)
-components = model_fit.plot_components(forecast)
-
-modelFit = model_fit
+modelFit.plot(forecast)
+modelFit.plot_components(forecast)
 
 assign1_test_data_df = pd.read_csv('assignment_data_test.csv')
 assign1_test_data_df_keep = assign1_test_data_df[['Timestamp']]
@@ -32,4 +30,4 @@ print(forecast_test[['ds', 'yhat']].head())
 pred = forecast_test['yhat'].tolist()
 
 pred = [round(num) for num in pred]
-print(pred)
+print(type(pred[0]))
