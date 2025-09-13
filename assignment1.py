@@ -11,13 +11,9 @@ assign1_data_df_keep = pd.DataFrame(assign1_data_df_keep.values, columns = ['ds'
 model = prophet.Prophet(changepoint_prior_scale=0.5)
 modelFit = model.fit(assign1_data_df_keep)
 
-assign1_test_data_df = pd.read_csv('assignment_data_test.csv')
-assign1_test_data_df_keep = assign1_test_data_df[['Timestamp']]
-assign1_test_data_df_keep.Timestamp = pd.to_datetime(assign1_test_data_df_keep.Timestamp, infer_datetime_format=True)
-assign1_test_data_df_keep = pd.DataFrame(assign1_test_data_df_keep.values, columns = ['ds'])
-forecast_test = modelFit.predict(assign1_test_data_df_keep)
+# Generate exactly 744 future periods
+future = modelFit.make_future_dataframe(periods=744, freq='h', include_history=False)
+forecast_test = modelFit.predict(future)
 
 pred = forecast_test['yhat'].tolist()
-
 pred = [round(num) for num in pred]
-print(pred)
