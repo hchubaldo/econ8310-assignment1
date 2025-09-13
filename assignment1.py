@@ -13,7 +13,7 @@ print(assign1_data_df_keep.head())
 model = prophet.Prophet(changepoint_prior_scale=0.5)
 modelFit = model.fit(assign1_data_df_keep)
 
-future = modelFit.make_future_dataframe(periods=24*7, freq='h')
+future = modelFit.make_future_dataframe(periods=24*31, freq='h')
 forecast = modelFit.predict(future)
 
 modelFit.plot(forecast)
